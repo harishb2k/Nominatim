@@ -43,7 +43,7 @@ A quick summary of the necessary steps:
         cmake ..
         make
         
-2. Some more things to ensure on Mac
+2. Some more helpful steps to make it work on Mac. You can do the similar steps on Ubuntu or other OS.
     
     ~~~~
    brew install postgres
@@ -53,8 +53,9 @@ A quick summary of the necessary steps:
 
 3. Postgres Setup
     ~~~~
-   
+    # Change passward of your choice   
     CREATE USER nominatim WITH PASSWORD 'pass';
+   
     create database nominatim;
     grant all privileges on database nominatim to nominatim;
     
