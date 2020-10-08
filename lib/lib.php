@@ -13,7 +13,9 @@ function getProcessorCount()
 {
     $sCPU = file_get_contents('/proc/cpuinfo');
     preg_match_all('#processor\s+: [0-9]+#', $sCPU, $aMatches);
-    return count($aMatches[0]);
+    // return count($aMatches[0]);
+    // HACK from Harish - /proc/cpuinfo did not found on Mac (hard code to 8)
+    return 8;
 }
 
 

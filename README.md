@@ -42,14 +42,111 @@ A quick summary of the necessary steps:
         cd build
         cmake ..
         make
+        
+2. Some more things to ensure on Mac
+    
+    ~~~~
+   brew install postgres
+   brew install postgis
+   pip3 install psycopg2
+   ~~~~
 
-2. Get OSM data and import:
+3. Postgres Setup
+    ~~~~
+   
+    CREATE USER nominatim WITH PASSWORD 'pass';
+    create database nominatim;
+    grant all privileges on database nominatim to nominatim;
+    
+   # Actually you just need nominatim to be able to create new DB
+   # NOTE - Dont give SUPERUSER
+   
+   ALTER USER nominatim SUPERUSER;
+   
+    Setup postgis and hstore plugin
+    > psql -d postgres
+        #\c nominatim
+        # CREATE EXTENSION postgis; 
+        # CREATE EXTENSION hstore;      
+    ~~~~
+
+4. Get OSM data and import:
 
         ./build/utils/setup.php --osm-file <your planet file> --all
+            OR
+        ./build/utils/setup.php --osm-file <Your xyz.osm.pbf file> --all --osm2pgsql-cache 2048
 
-3. Point your webserver to the ./build/website directory.
+5. Run to make sure everything is OK
+    ~~~~
+    ./utils/check_import_finished.php
+    ~~~~
+   
+6. Point your webserver to the ./build/website directory.
+   Note - This step is not required for using this data with Photon
 
 
+
+Additional Setup to setup Photon
+=======
+1. Clone Photon Code base
+   ~~~~
+   git clone https://github.com/komoot/photon.git
+   mvn clean install   
+   ~~~~
+   
+2. Load data to ES first (Note photon runs a embedded ES node) 
+   ~~~~
+   # Change DB user name, password, host, port accordngilly 
+   java -jar target/photon-0.3.4.jar -nominatim-import -host localhost -port 5432 -database nominatim -user nominatim -password pass -languages es,fr,en
+   
+   NOTE - if you see problem related to index exist then do the following
+   java -jar target/photon-0.3.4.jar
+   curl --location --request DELETE 'http://localhost:9200/photon';  
+   ~~~~
+
+3. Run Photon
+   ~~~~
+   java -jar target/photon-0.3.4.jar
+   ~~~~
+
+4. Try it
+   ~~~~
+   curl --location --request GET 'http://localhost:2322/api?q=mindspace&limit=10&lang=en'
+   
+   Response:
+   {
+       "features": [
+           {
+               "geometry": {
+                   "coordinates": [
+                       13.3901333,
+                       52.5123455
+                   ],
+                   "type": "Point"
+               },
+               "type": "Feature",
+               "properties": {
+                   "osm_id": 4306070496,
+                   "country": "Germany",
+                   "city": "Berlin",
+                   "countrycode": "DE",
+                   "postcode": "10117",
+                   "type": "house",
+                   "osm_type": "N",
+                   "osm_key": "office",
+                   "housenumber": "68",
+                   "street": "Friedrichstraße",
+                   "district": "Mitte",
+                   "osm_value": "company",
+                   "name": "mindspace",
+                   "state": "Brandenburg"
+               }
+           }
+       ],
+       "type": "FeatureCollection"
+   }
+   ~~~~
+            
 License
 =======
 

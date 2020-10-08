@@ -147,6 +147,8 @@ class SetupFunctions
         }
         $this->pgsqlRunScriptFile(CONST_BasePath.'/data/country_name.sql');
         $this->pgsqlRunScriptFile(CONST_ExtraDataPath.'/country_osm_grid.sql.gz');
+        // HACK from Harish - Not sure why above line does not work - so use explicit country_osm_grid.sql
+        $this->pgsqlRunScriptFile(CONST_ExtraDataPath.'/country_osm_grid.sql');
         $this->pgsqlRunScriptFile(CONST_BasePath.'/data/gb_postcode_table.sql');
         $this->pgsqlRunScriptFile(CONST_BasePath.'/data/us_postcode_table.sql');
 
