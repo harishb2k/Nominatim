@@ -37,12 +37,17 @@ as well.
 A quick summary of the necessary steps:
 
 1. Compile Nominatim:
-
-        mkdir build
-        cd build
-        cmake ..
-        make
-        
+    ~~~~
+    # Make sure you clone this project with --recursive flag
+    # This project depends on a sub-module
+    git clone --recursive https://github.com/harishb2k/Nominatim.git
+    
+    mkdir build
+    cd build
+    cmake ..
+    make
+    ~~~~
+           
 2. Some more helpful steps to make it work on Mac. You can do the similar steps on Ubuntu or other OS.
     
     ~~~~
