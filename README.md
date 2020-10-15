@@ -34,7 +34,48 @@ Detailed installation instructions for the development version can be
 found at [nominatim.org](https://nominatim.org/release-docs/develop/admin/Installation)
 as well. 
 
+
+A quick summary of the necessary steps to use existing self-containing docker image with Postgres:
+    OR go to "A quick summary of the necessary steps" section to work with local Postgres database
+    NOTE - this setup given in this document does not work with remote postgres
+           -> Remote setup requires some .so files to be copied to Postgres servers. So I prefer
+           local setup over remote 
+```
+    docker run -it harishb2k/nominatim
+    
+    NOTE - you may want to expose Postgress port to use this data from outside this container           
+           You will lose data after reboot
+
+    # Start Postgres and create required database and user:
+    ========================================================
+    service postgresql restart
+    su postgres
+    psql -d postgres
+    
+    # Run following commands in Postgres console after running "psql -d postgres":
+    ==============================================================================
+    CREATE USER nominatim WITH PASSWORD 'nominatim';
+    create database nominatim;
+    grant all privileges on database nominatim to nominatim;
+    ALTER USER nominatim SUPERUSER;
+    CREATE EXTENSION postgis;
+    CREATE EXTENSION hstore;
+    drop database nominatim ;
+    \q
+    exit
+    # This "exit" will take you out of "postgres" user    
+
+    # Download sample data if you need (Or use your own OSM file
+    wget -O muenchen.osm "https://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
+    
+    # Run the command to put data
+    ./utils/setup.php --osm-file muenchen.osm --all
+
+```
+
+
 A quick summary of the necessary steps:
+
 
 1. Compile Nominatim:
     ~~~~
