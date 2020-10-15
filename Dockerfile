@@ -7,3 +7,4 @@ RUN mkdir build
 WORKDIR build
 RUN cmake ..
 RUN make -j8
+RUN apt-get install -y postgresql-client
