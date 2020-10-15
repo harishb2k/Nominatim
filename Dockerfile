@@ -4,7 +4,8 @@ RUN apt-get update
 RUN apt-get install -y wget
 RUN apt-get install -y mason net-tools libtbb-dev iptables \
         iptables build-essential cmake libbz2-dev zlib1g-dev zstd libzstd-dev \
-        liblz4-dev libexpat-dev libboost-all-dev  libpq-dev  git php wget nano python3 python-psycopg2
+        liblz4-dev libexpat-dev libboost-all-dev  libpq-dev  git php wget nano python3 python3-pip
+RUN pip3 install psycopg2
 
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
