@@ -32,7 +32,7 @@ There you can also find [installation instructions for the release](https://nomi
 
 Detailed installation instructions for the development version can be
 found at [nominatim.org](https://nominatim.org/release-docs/develop/admin/Installation)
-as well.
+as well. 
 
 A quick summary of the necessary steps:
 
@@ -81,6 +81,10 @@ A quick summary of the necessary steps:
         ./build/utils/setup.php --osm-file <your planet file> --all
             OR
         ./build/utils/setup.php --osm-file <Your xyz.osm.pbf file> --all --osm2pgsql-cache 2048
+        
+        FYI - If you want to download a data to try, use the following
+        wget -O muenchen.osm "https://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
+
 
 5. Run to make sure everything is OK
     ~~~~
