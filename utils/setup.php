@@ -21,6 +21,7 @@ $aCMDOptions
    array('all', '', 0, 1, 0, 0, 'bool', 'Do the complete process'),
 
    array('create-db', '', 0, 1, 0, 0, 'bool', 'Create nominatim db'),
+   array('no-create-db', '', 0, 1, 0, 0, 'bool', 'Do not create nominatim db - useful if using all and already has DB'),
    array('setup-db', '', 0, 1, 0, 0, 'bool', 'Build a blank nominatim db'),
    array('import-data', '', 0, 1, 0, 0, 'bool', 'Import a osm file'),
    array('osm2pgsql-cache', '', 0, 1, 1, 1, 'int', 'Cache size used by osm2pgsql'),
@@ -65,7 +66,9 @@ $oSetup = new SetupFunctions($aCMDResult);
 
 // *******************************************************
 // go through complete process if 'all' is selected or start selected functions
-if ($aCMDResult['create-db'] || $aCMDResult['all']) {
+if ($aCMDResult['no-create-db']) {
+    // Do not create DB if this flag is passed
+} else if ($aCMDResult['create-db'] || $aCMDResult['all']) {
     $bDidSomething = true;
     $oSetup->createDB();
 }
