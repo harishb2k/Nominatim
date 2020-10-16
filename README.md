@@ -65,6 +65,10 @@ A quick summary of the necessary steps to use existing self-containing docker im
     exit
     # This "exit" will take you out of "postgres" user    
 
+        OR
+    
+    su postgres -c ./boot.sh 
+
     # Download sample data if you need (Or use your own OSM file
     wget -O muenchen.osm "https://api.openstreetmap.org/api/0.6/map?bbox=11.54,48.14,11.543,48.145"
     
